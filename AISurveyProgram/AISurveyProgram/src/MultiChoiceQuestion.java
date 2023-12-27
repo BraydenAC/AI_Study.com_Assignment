@@ -4,12 +4,14 @@ public class MultiChoiceQuestion extends Question {
 	//Initialize Class variables
 	String[] questionContent = new String[4];
 	String ans = "";
+	String prompt = "";
 	
 	//Constructor
-	public MultiChoiceQuestion(String[] questionContent) {
+	public MultiChoiceQuestion(String[] questionContent, String prompt) {
 		//Tranferring incoming string array into local questionContent
 		for(int x = 0; x < 4; x++) {
 			this.questionContent[x] = questionContent[x];
+			this.prompt = prompt;
 		}
 	}
 	
@@ -21,6 +23,7 @@ public class MultiChoiceQuestion extends Question {
 		//Loop until user has selected a proper letter
 		while(!(ans.equals("a") || ans.equals("b") || ans.equals("c") || ans.equals("d"))) {
 			//Display question
+			System.out.println(prompt);
 			System.out.println("Please enter the letter corresponding to your answer");
 			for(int x = 0; x < 4; x++) {
 				System.out.println(questionContent[x]);
