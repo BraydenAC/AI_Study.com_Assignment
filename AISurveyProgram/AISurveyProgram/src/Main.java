@@ -15,8 +15,8 @@ public class Main {
 		Scanner scanner = new Scanner(System.in);
 		
 		//do questions 1-9
-		for(int x = 1; x < quizQuestions.length; x++) {
-			quizQuestions[x].displayQuestion();
+		for(Question x : quizQuestions) {
+			x.displayQuestion();
 		}
 		
 		//Print what was predicted
