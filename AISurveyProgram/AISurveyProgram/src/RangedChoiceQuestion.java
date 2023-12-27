@@ -21,12 +21,14 @@ public class RangedChoiceQuestion extends Question {
 			//Display question
 			System.out.println("In a range between 1 and 10, how strongly do you believe the following?");
 			System.out.println(questionContent);
+			System.out.println("Your answer: ");
 			
 			//Get and validate user input in response
 			if (scanner.hasNextInt()) {
 	            ans = scanner.nextInt();
 	        } else {
 	            System.out.println("Invalid input. Please enter an integer.");
+	            scanner.next();
 	        }
 			
 			//Display error message if entered numbers is outside of proper range
@@ -34,8 +36,6 @@ public class RangedChoiceQuestion extends Question {
 				System.out.println("Invalid input.  Please enter a number between 1 and 10");
 			}
 		}
-		//Resource leak prevention
-		scanner.close();
 	}
 	public int getAns() {return ans;}
 }

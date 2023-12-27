@@ -27,16 +27,14 @@ public class MultiChoiceQuestion extends Question {
 			}
 			
 			//Get user input
-			System.out.println("Your answer: ");
+			System.out.print("Your answer: ");
+			System.out.println("");
 			ans = scanner.next();
 			//Validate user input in response
 			if (!(ans.equals("a") || ans.equals("b") || ans.equals("c") || ans.equals("d"))) {
 				System.out.println("Invalid input: please enter a, b, c, or d");
 			}
 		}
-		//Resource leak prevention
-		scanner.close();
-	
 	}
 	public int getAns() {
 	int result = 0;

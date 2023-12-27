@@ -37,8 +37,6 @@ public class Main {
 		
 		//Find which party is identical to the created string array
 		if(Arrays.equals(winningParty, prevParty1Info)) {
-			
-		} else if(Arrays.equals(winningParty, prevParty1Info)) {
 			System.out.println("Your choices most closly align with the Democratic Party");
 		} else if(Arrays.equals(winningParty, prevParty2Info)) {
 			System.out.println("Your choices most closly align with Republican Party");
@@ -57,16 +55,16 @@ public class Main {
 		while(!(q10Ans.equals("a") || q10Ans.equals("b") || q10Ans.equals("c") || q10Ans.equals("d"))) {
 			//Display question
 			System.out.println("Please enter the letter corresponding to which political party you most identify with");
-			System.out.println("Democrat");
-			System.out.println("Republican");
-			System.out.println("Libertarian");
-			System.out.println("Green");
+			System.out.println("a) Democrat");
+			System.out.println("b) Republican");
+			System.out.println("c) Libertarian");
+			System.out.println("d) Green");
 			System.out.print("Your selection:  ");
 			
 			//Get user input
 			q10Ans = scanner.next();
 			//Resource leak prevention
-			scanner.close();			
+			
 			//Validate user input in response
 			switch(q10Ans){
 				case "a":
@@ -89,6 +87,7 @@ public class Main {
 					System.out.println("Invalid input: please enter a, b, c, or d");
 			}
 		}
+		scanner.close();
 	}
 	
 	public static String[] retrievePartyAnswers(String path) {
@@ -111,15 +110,15 @@ public class Main {
 	public static void storePartyAnswers(String path, String[] submitInfo, Question[] answers) {
 		//Initialize final submit
 		String[] finalSubmit = new String[10];
-		
+		int y = Integer.parseInt(submitInfo[9]);
 		//For loop to affect each line of the submit info
-		for(int x = 0; x < 9; x++) {
-			if(answers[x] instanceof MultiChoiceQuestion) {
+		for(int num = 0; num < 9; num++) {
+			if(answers[num] instanceof MultiChoiceQuestion) {
 				//Splits the four options into their own individual strings
-				String[] options = submitInfo[x].split(",");
+				String[] options = submitInfo[num].split(",");
 				//Increments the string value of the correct option by one and returns it to a string
-				options[answers[x].getAns() - 1] = String.valueOf(Integer.parseInt(options[answers[x].getAns() - 1]) + 1);
-				finalSubmit[x] = options[0] + "," + options[1] + "," + options[2] + "," + options[3];
+				options[answers[num].getAns() - 1] = String.valueOf(Integer.parseInt(options[answers[num].getAns() - 1]) + 1);
+				finalSubmit[num] = options[0] + "," + options[1] + "," + options[2] + "," + options[3];
 			} else {
 				/*Formula used here(due to using integers, all decimals will be discarded; such precision unnecessary):
 				 * (x * y + z) / (y + 1)
@@ -127,21 +126,21 @@ public class Main {
 				 * x = Original averaged number
 				 * y = Weight of the original averaged number(how many numbers were added together to make that average)
 				 * z = The number to be added in to to make the new average*/
-				finalSubmit[x] = String.valueOf((Integer.parseInt(submitInfo[x]) * Integer.parseInt(submitInfo[9]) 
-												+ answers[x].getAns())
-												/ (Integer.parseInt(submitInfo[9] + 1)));
+				int x  = Integer.parseInt(submitInfo[num]);
+				int z = answers[num].getAns();
+				finalSubmit[num] = String.valueOf((x * y + z) / (y + 1));
 			}
 		}
 		
 		//Increase party member count tally
-		submitInfo[9] = String.valueOf(Integer.parseInt(submitInfo[9]) + 1);
+		finalSubmit[9] = String.valueOf(y + 1);
 		
 		try(BufferedWriter writer = new BufferedWriter(new FileWriter(path))) {
 			//iterates through array, writing each array element to the file one line at a time
 			for (int x = 0; x < 10; x++) {
 				writer.write(finalSubmit[x]);
 				//If statement keeps file from infinitely increasing in length
-				if(x + 2 < finalSubmit.length) {
+				if(x + 1 < finalSubmit.length) {
 					writer.newLine();	
 				}
 			}
